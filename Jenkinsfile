@@ -9,6 +9,7 @@ pipeline {
         MAJOR_VERSION = 1
         MINOR_VERSION = 0
         PATCH_VERSION = 0
+        INITIAL_PATCH_VERSION = 0
     }
 
     stages {
@@ -33,8 +34,8 @@ pipeline {
                 script {
                     MAJOR_VERSION = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     MINOR_VERSION = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
-                    PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    PATCH_VERSION=$(( PATCH_VERSION + 1))
+                    INITIAL_PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
+                    PATCH_VERSION=$(( INITIAL_PATCH_VERSION + 1 ))
                     // def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     // def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
                     // def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
