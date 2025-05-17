@@ -40,13 +40,14 @@ pipeline {
 
 
 
-        // stage('Push To Docker') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$TAG")}
-        //         }
-        //     }
-        // }
+        stage('Push To Docker') {
+            steps {
+                script {
+                    echo "$DOCKER_TAG"
+                    // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$TAG")}
+                }
+            }
+        }
 
 
        
