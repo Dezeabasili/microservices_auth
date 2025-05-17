@@ -6,6 +6,9 @@ pipeline {
         DOCKER_HUB_REPO = 'doneze/auth'
         // Use dynamic versioning here (example uses fixed TAG for simplicity)
         TAG = '1.0.42'
+        MAJOR_VERSION = 1
+        MINOR_VERSION = 0
+        PATCH_VERSION = 0
     }
 
     stages {
@@ -28,11 +31,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
-                    def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
-                    def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    patch_version=$(( patch_version + 1 ))
-                    env.DOCKER_TAG = "$major_version:$minor_version:$patch_version"
+                    MAJOR_VERSION=$(cat auth_services_repo/tags_folder/major_version.txt)
+                    MINOR_VERSION=$(cat auth_services_repo/tags_folder/minor_version.txt)
+                    PATCH_VERSION=$(cat auth_services_repo/tags_folder/patch_version.txt)
+                    PATCH_VERSION=$(( PATCH_VERSION + 1))
+                    // def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
+                    // def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
+                    // def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
+                    // patch_version=$(( patch_version + 1 ))
+                    // env.DOCKER_TAG = "$major_version:$minor_version:$patch_version"
+                    env.DOCKER_TAG = "$MAJOR_VERSION:$MINOR_VERSION:$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                     // dockerImage = docker.build("$DOCKER_HUB_REPO:$TAG", "-f Dockerfile .")
                 }
