@@ -6,10 +6,10 @@ pipeline {
         DOCKER_HUB_REPO = 'doneze/auth'
         // Use dynamic versioning here (example uses fixed TAG for simplicity)
         TAG = '1.0.42'
-        MAJOR_VERSION = 1
-        MINOR_VERSION = 0
-        PATCH_VERSION = 0
-        INITIAL_PATCH_VERSION = 0
+        // MAJOR_VERSION = 1
+        // MINOR_VERSION = 0
+        // PATCH_VERSION = 0
+        // INITIAL_PATCH_VERSION = 0
     }
 
     stages {
@@ -32,10 +32,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    MAJOR_VERSION = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
-                    MINOR_VERSION = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
-                    INITIAL_PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
+                    def MAJOR_VERSION = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
+                    def MINOR_VERSION = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
+                    def INITIAL_PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
+                    def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
                     // def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     // def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
                     // def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
