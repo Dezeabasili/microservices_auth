@@ -32,18 +32,18 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def MAJOR_VERSION = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
-                    def MINOR_VERSION = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
-                    def INITIAL_PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
-                    // def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
-                    // def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
-                    // def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    // patch_version=$(( patch_version + 1 ))
-                    // env.DOCKER_TAG = "$major_version:$minor_version:$patch_version"
+                    def MAJOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/major_version.txt'
+                    def MINOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/minor_version.txt'
+                    def INITIAL_PATCH_VERSION = readFile file: 'kubernetes_repo/tags_folder/patch_version.txt'
+                    if [ (INITIAL_PATCH_VERSION.trim()).toInteger() -ne 0 ] 
+                    then 
+                        def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
+                    fi
+
+                    
                     env.DOCKER_TAG = "$MAJOR_VERSION:$MINOR_VERSION:$PATCH_VERSION"
                     echo "$DOCKER_TAG"
-                    // dockerImage = docker.build("$DOCKER_HUB_REPO:$TAG", "-f Dockerfile .")
+                    // dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
                 }
             }
         }
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo "$DOCKER_TAG"
-                    // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$TAG")}
+                    // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
                 }
             }
         }
