@@ -5,7 +5,7 @@ pipeline {
         DOCKER_REGISTRY = 'https://hub.docker.com/u/doneze'
         DOCKER_HUB_REPO = 'doneze/auth'
         // Use dynamic versioning here (example uses fixed TAG for simplicity)
-        TAG = '1.0.43'
+        TAG = '1.0.42'
     }
 
     stages {
