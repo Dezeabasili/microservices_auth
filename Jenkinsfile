@@ -31,6 +31,7 @@ pipeline {
                     def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
                     def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
+                    patch_version = $(( patch_version + 1 ))
                     env.DOCKER_TAG = "$major_version:$minor_version:$patch_version"
                     echo "$DOCKER_TAG"
                     // dockerImage = docker.build("$DOCKER_HUB_REPO:$TAG", "-f Dockerfile .")
