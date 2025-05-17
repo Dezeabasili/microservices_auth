@@ -35,7 +35,7 @@ pipeline {
                     MAJOR_VERSION = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     MINOR_VERSION = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
                     INITIAL_PATCH_VERSION = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
-                    PATCH_VERSION=$(( INITIAL_PATCH_VERSION + 1 ))
+                    PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
                     // def major_version = readFile file: 'auth_services_repo/tags_folder/major_version.txt'
                     // def minor_version = readFile file: 'auth_services_repo/tags_folder/minor_version.txt'
                     // def patch_version = readFile file: 'auth_services_repo/tags_folder/patch_version.txt'
