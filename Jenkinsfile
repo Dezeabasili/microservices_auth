@@ -46,7 +46,7 @@ pipeline {
                         else
                             git add .
                             git commit -m "[ci skip] Update image tag to ${TAG}"
-                            git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@https://github.com/Dezeabasili/microservices_kubernetes.git"
+                            git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Dezeabasili/microservices_kubernetes.git"
                         fi
                     '''
                 }
