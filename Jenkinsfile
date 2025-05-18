@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Get Docker Image version') {
             steps {
                 script {
                     def MAJOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/major_version.txt'
@@ -44,8 +44,20 @@ pipeline {
                     env.NEW_PATCH_VERSION = "$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                     echo "Hello"
-                    dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
                 }
+            }
+        }
+
+
+
+        stage('Build Docker Image') {
+            steps {
+                dir('auth_services_repo') {
+                    script {
+                        dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
+                    }
+                }
+                
             }
         }
 
@@ -53,9 +65,11 @@ pipeline {
 
         stage('Push To Docker') {
             steps {
-                script {
+                dir('auth_services_repo') {
+                    script {
                     echo "$DOCKER_TAG"
                     docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
+                    }
                 }
             }
         }
