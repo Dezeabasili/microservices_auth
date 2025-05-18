@@ -40,11 +40,11 @@ pipeline {
                     if (PATCH_VERSION != 0) {
                         PATCH_VERSION += 1
                     }
-                    env.DOCKER_TAG = "$MAJOR_VERSION:$MINOR_VERSION:$PATCH_VERSION"
+                    env.DOCKER_TAG = "$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
                     env.NEW_PATCH_VERSION = "$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                     echo "Hello"
-                    // dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
+                    dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
                 }
             }
         }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     echo "$DOCKER_TAG"
-                    // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
+                    docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
                 }
             }
         }
