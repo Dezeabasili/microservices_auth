@@ -75,7 +75,7 @@ pipeline {
                     script {
                     sh '''
                         # Fix the sed command to replace the entire line
-                        sed -i "s|image:.*|image: doneze/auth_services:${DOCKER_TAG}|" \
+                        sed -i "s|image:.*|image: doneze/auth:${DOCKER_TAG}|" \
                             kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
 
                         echo "$NEW_PATCH_VERSION" > tags_folder/auth_services/patch_version.txt
