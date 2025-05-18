@@ -30,17 +30,13 @@ pipeline {
                     def MINOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/auth_services/minor_version.txt'
                     def INITIAL_PATCH_VERSION = readFile file: 'kubernetes_repo/tags_folder/auth_services/patch_version.txt'
                     def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger()
-                    // if the value of INITIAL_PATCH_VERSION is not equal to 0, increase the value of INITIAL_PATCH_VERSION by 1 
-                    if (PATCH_VERSION != 0) {
-                        PATCH_VERSION += 1
-                    }
+                    PATCH_VERSION += 1
                     env.DOCKER_TAG = "$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
                     env.NEW_PATCH_VERSION = "$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                 }
             }
         }
-
 
 
         stage('Build Docker Image') {
