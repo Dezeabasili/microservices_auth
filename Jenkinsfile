@@ -81,29 +81,29 @@ pipeline {
 
 
 
-        // stage('Commit & Push') {
-        //     steps {
-        //         withCredentials([usernamePassword(
-        //             credentialsId: 'github-cred', 
-        //             passwordVariable: 'GIT_PASSWORD', 
-        //             usernameVariable: 'GIT_USERNAME'
-        //         )]) {
-        //             sh '''
-        //                 git config user.name "Jenkins"
-        //                 git config user.email "jenkins@example.com"
+        stage('Commit & Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'github-cred', 
+                    passwordVariable: 'GIT_PASSWORD', 
+                    usernameVariable: 'GIT_USERNAME'
+                )]) {
+                    sh '''
+                        git config user.name "Jenkins"
+                        git config user.email "jenkins@example.com"
                         
-        //                 # Check if there are changes to commit
-        //                 if git diff --quiet; then
-        //                     echo "No changes to commit."
-        //                 else
-        //                     git add .
-        //                     git commit -m "[ci skip] Update image tag to ${TAG}"
-        //                     git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Dezeabasili/microservices_kubernetes.git"
-        //                 fi
-        //             '''
-        //         }
-        //     }
-        // }
+                        # Check if there are changes to commit
+                        if git diff --quiet; then
+                            echo "No changes to commit."
+                        else
+                            git add .
+                            git commit -m "[ci skip] Update image tag to ${DOCKER_TAG}"
+                            git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Dezeabasili/microservices_kubernetes.git"
+                        fi
+                    '''
+                }
+            }
+        }
     }
 }
 
