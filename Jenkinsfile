@@ -83,11 +83,12 @@ pipeline {
 
         stage('Commit & Push') {
             steps {
+
                 withCredentials([usernamePassword(
                     credentialsId: 'github-cred', 
                     passwordVariable: 'GIT_PASSWORD', 
                     usernameVariable: 'GIT_USERNAME'
-                )]) {
+                )]) { dir('kubernetes_repo') {
                     sh '''
                         git config user.name "Dezeabasili"
                         git config user.email "ezeabasili@yahoo.co.uk"
@@ -101,6 +102,8 @@ pipeline {
                             git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Dezeabasili/microservices_kubernetes.git"
                         fi
                     '''
+                }
+                    
                 }
             }
         }
