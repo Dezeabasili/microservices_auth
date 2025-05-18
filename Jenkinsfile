@@ -71,7 +71,7 @@ pipeline {
                         sed -i "s|image:.*|image: doneze/auth_services:${DOCKER_TAG}|" \
                             kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
 
-                        echo "$NEW_PATCH_VERSION"
+                        echo "$NEW_PATCH_VERSION" > tags_folder/patch_version.txt
                     '''
                 }
                 }
