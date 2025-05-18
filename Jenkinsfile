@@ -54,7 +54,6 @@ pipeline {
             steps {
                 script {
                     echo "$DOCKER_TAG"
-                    echo "$MAJOR_VERSION"
                     // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
                 }
             }
@@ -62,17 +61,20 @@ pipeline {
 
 
        
-        // stage('Modify Image Tag') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //                 # Fix the sed command to replace the entire line
-        //                 sed -i "s|image:.*|image: doneze/auth_services:${TAG}|" \
-        //                     kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Modify Image Tag') {
+            steps {
+                dir('kubernetes_repo') {
+                    script {
+                    sh '''
+                        # Fix the sed command to replace the entire line
+                        sed -i "s|image:.*|image: doneze/auth_services:${DOCKER_TAG}|" \
+                            kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
+                    '''
+                }
+                }
+                
+            }
+        }
 
 
 
