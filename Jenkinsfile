@@ -35,12 +35,11 @@ pipeline {
                     def MAJOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/major_version.txt'
                     def MINOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/minor_version.txt'
                     def INITIAL_PATCH_VERSION = readFile file: 'kubernetes_repo/tags_folder/patch_version.txt'
-                    if [ (INITIAL_PATCH_VERSION.trim()).toInteger() -ne 0 ] 
-                    then 
-                        def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger() + 1
-                    fi
-
-                    
+                    def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger()
+                    // if the value of INITIAL_PATCH_VERSION is not equal to 0, increase the value of INITIAL_PATCH_VERSION by 1 
+                    if (PATCH_VERSION != 0) {
+                        PATCH_VERSION += 1
+                    }
                     env.DOCKER_TAG = "$MAJOR_VERSION:$MINOR_VERSION:$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                     // dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
