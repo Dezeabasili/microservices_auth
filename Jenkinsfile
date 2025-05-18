@@ -54,6 +54,7 @@ pipeline {
             steps {
                 script {
                     echo "$DOCKER_TAG"
+                    echo "$MAJOR_VERSION"
                     // docker.withRegistry('https://registry.hub.docker.com', "$DOCKER_CRIDENTIALS_ID") {dockerImage.push("$DOCKER_TAG")}
                 }
             }
