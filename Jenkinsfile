@@ -4,12 +4,6 @@ pipeline {
         DOCKER_CRIDENTIALS_ID = 'dockerhub-jenkins'
         DOCKER_REGISTRY = 'https://hub.docker.com/u/doneze'
         DOCKER_HUB_REPO = 'doneze/auth'
-        // Use dynamic versioning here (example uses fixed TAG for simplicity)
-        TAG = '1.0.42'
-        // MAJOR_VERSION = 1
-        // MINOR_VERSION = 0
-        // PATCH_VERSION = 0
-        // INITIAL_PATCH_VERSION = 0
     }
 
     stages {
@@ -32,9 +26,9 @@ pipeline {
         stage('Get Docker Image version') {
             steps {
                 script {
-                    def MAJOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/major_version.txt'
-                    def MINOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/minor_version.txt'
-                    def INITIAL_PATCH_VERSION = readFile file: 'kubernetes_repo/tags_folder/patch_version.txt'
+                    def MAJOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/auth_services/major_version.txt'
+                    def MINOR_VERSION = readFile file: 'kubernetes_repo/tags_folder/auth_services/minor_version.txt'
+                    def INITIAL_PATCH_VERSION = readFile file: 'kubernetes_repo/tags_folder/auth_services/patch_version.txt'
                     def PATCH_VERSION = (INITIAL_PATCH_VERSION.trim()).toInteger()
                     // if the value of INITIAL_PATCH_VERSION is not equal to 0, increase the value of INITIAL_PATCH_VERSION by 1 
                     if (PATCH_VERSION != 0) {
@@ -43,7 +37,6 @@ pipeline {
                     env.DOCKER_TAG = "$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
                     env.NEW_PATCH_VERSION = "$PATCH_VERSION"
                     echo "$DOCKER_TAG"
-                    echo "Hello"
                 }
             }
         }
@@ -85,7 +78,7 @@ pipeline {
                         sed -i "s|image:.*|image: doneze/auth_services:${DOCKER_TAG}|" \
                             kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
 
-                        echo "$NEW_PATCH_VERSION" > tags_folder/patch_version.txt
+                        echo "$NEW_PATCH_VERSION" > tags_folder/auth_services/patch_version.txt
                     '''
                 }
                 }
