@@ -41,6 +41,7 @@ pipeline {
                         PATCH_VERSION += 1
                     }
                     env.DOCKER_TAG = "$MAJOR_VERSION:$MINOR_VERSION:$PATCH_VERSION"
+                    env.NEW_PATCH_VERSION = "$PATCH_VERSION"
                     echo "$DOCKER_TAG"
                     echo "Hello"
                     // dockerImage = docker.build("$DOCKER_HUB_REPO:$DOCKER_TAG", "-f Dockerfile .")
@@ -69,6 +70,8 @@ pipeline {
                         # Fix the sed command to replace the entire line
                         sed -i "s|image:.*|image: doneze/auth_services:${DOCKER_TAG}|" \
                             kubernetes-manifests/microservices-folders/auth/auth-deployment.yaml
+
+                        echo "$NEW_PATCH_VERSION"
                     '''
                 }
                 }
