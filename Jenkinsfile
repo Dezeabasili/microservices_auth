@@ -89,8 +89,8 @@ pipeline {
                     usernameVariable: 'GIT_USERNAME'
                 )]) {
                     sh '''
-                        git config user.name "Jenkins"
-                        git config user.email "jenkins@example.com"
+                        git config user.name "Dezeabasili"
+                        git config user.email "ezeabasili@yahoo.co.uk"
                         
                         # Check if there are changes to commit
                         if git diff --quiet; then
